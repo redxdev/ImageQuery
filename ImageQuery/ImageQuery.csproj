@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Antlr4.4.3.0\build\Antlr4.props" Condition="Exists('..\packages\Antlr4.4.3.0\build\Antlr4.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +12,7 @@
     <AssemblyName>ImageQuery</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>ad2f1092</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.Runtime.net45">
+    <Reference Include="Antlr4.Runtime.net45, Version=4.3.0.0, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr4.Runtime.4.3.0\lib\net45\Antlr4.Runtime.net45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -43,7 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Language\IQLang.g4.lexer.cs">
+      <DependentUpon>IQLang.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Language\IQLang.g4.parser.cs">
+      <DependentUpon>IQLang.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Language\LanguageUtilities.cs" />
+    <Compile Include="Language\LexerErrorListener.cs" />
+    <Compile Include="Language\ParseException.cs" />
+    <Compile Include="Language\ParserErrorListener.cs" />
+    <Compile Include="Query\BooleanExpression.cs" />
+    <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
+    <Compile Include="Query\Operators\AndExpression.cs" />
+    <Compile Include="Query\Operators\DivideExpression.cs" />
     <Compile Include="Query\Operators\GreaterThanExpression.cs" />
+    <Compile Include="Query\Operators\GreaterThanOrEqualExpression.cs" />
+    <Compile Include="Query\Operators\InequalityExpression.cs" />
+    <Compile Include="Query\Operators\LessThanExpression.cs" />
+    <Compile Include="Query\Operators\LessThanOrEqualExpression.cs" />
+    <Compile Include="Query\Operators\MultiplyExpression.cs" />
+    <Compile Include="Query\Operators\NotExpression.cs" />
+    <Compile Include="Query\Operators\OrExpression.cs" />
     <Compile Include="Query\RetrieveIndexedVariableExpression.cs" />
     <Compile Include="Query\Value\BooleanValue.cs" />
     <Compile Include="Canvas\BasicCanvas.cs" />
@@ -64,14 +88,13 @@
     <Compile Include="Query\ApplyStatement.cs" />
     <Compile Include="Query\BasicSelection.cs" />
     <Compile Include="Query\ColorExpression.cs" />
-    <Compile Include="Query\DefineCanvasStatement.cs" />
+    <Compile Include="Query\DefineIntermediateStatement.cs" />
     <Compile Include="Query\DefineInputStatement.cs" />
     <Compile Include="Query\DefineOutputStatement.cs" />
     <Compile Include="Query\IExpression.cs" />
     <Compile Include="Query\IQueryStatement.cs" />
     <Compile Include="Query\ISelection.cs" />
     <Compile Include="Query\NumberExpression.cs" />
-    <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\EqualityExpression.cs" />
     <Compile Include="Query\Operators\ModulusExpression.cs" />
     <Compile Include="Query\Operators\SubtractExpression.cs" />
@@ -84,7 +107,24 @@
     <Compile Include="Query\Value\CanvasValue.cs" />
     <Compile Include="Query\Value\IQueryValue.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Antlr4 Include="Language\IQLang.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>ImageQuery.Language</CustomToolNamespace>
+    </Antlr4>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Antlr4.4.3.0\build\Antlr4.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.4.3.0\build\Antlr4.props'))" />
+    <Error Condition="!Exists('..\packages\Antlr4.4.3.0\build\Antlr4.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.4.3.0\build\Antlr4.targets'))" />
+  </Target>
+  <Import Project="..\packages\Antlr4.4.3.0\build\Antlr4.targets" Condition="Exists('..\packages\Antlr4.4.3.0\build\Antlr4.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -7,7 +7,7 @@ using ImageQuery.Environment;
 
 namespace ImageQuery.Query
 {
-    interface IQueryStatement
+    public interface IQueryStatement
     {
         void Run(IEnvironment env);
     }

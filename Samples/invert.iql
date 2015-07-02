@@ -1,0 +1,5 @@
+# Invert colors
+INPUT in
+OUTPUT out[1000,1000]
+
+APPLY SELECT {1-r,1-g,1-b,a} FROM in TO out

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ImageQuery;
 using ImageQuery.Canvas;
 using ImageQuery.Environment;
+using ImageQuery.Language;
 using ImageQuery.Query;
 using ImageQuery.Query.Operators;
 
@@ -25,52 +26,21 @@ namespace IMQ
 
             RootEnvironment root = new RootEnvironment(settings);
 
+            string filename = args[0];
+
             try
             {
                 BitmapCanvasLoader loader = new BitmapCanvasLoader();
                 loader.RegisterName("in", "in.png");
                 root.SetCanvasLoader(loader);
 
-                ICanvas input = root.CreateInput("in");
-                ICanvas output = root.CreateOutput("out", input.Width, input.Height);
-                ApplyStatement apply = new ApplyStatement()
+                IQueryStatement[] statements = LanguageUtilities.ParseFile(filename);
+                foreach (IQueryStatement statement in statements)
                 {
-                    CanvasName = "out",
-                    Selection = new BasicSelection()
-                    {
-                        CanvasName = "in",
-                        Modulation = new RetrieveIndexedVariableExpression()
-                        {
-                            Name = "color",
-                            X = new SubtractExpression()
-                            {
-                                Left = new RetrieveVariableExpression()
-                                {
-                                    Name = "x"
-                                },
-                                Right = new NumberExpression()
-                                {
-                                    Value = 50
-                                }
-                            }
-                        },
-                        Where = new GreaterThanExpression()
-                        {
-                            Left = new RetrieveVariableExpression()
-                            {
-                                Name = "x"
-                            },
-                            Right = new NumberExpression()
-                            {
-                                Value = 49
-                            }
-                        }
-                    }
-                };
+                    statement.Run(root);
+                }
 
-                apply.Run(root);
-
-                output.WriteToFile("out.png");
+                root.GetVariable("out").Canvas.WriteToFile("out.png");
                 Console.WriteLine("Wrote output to out.png");
             }
             catch (Exception e)

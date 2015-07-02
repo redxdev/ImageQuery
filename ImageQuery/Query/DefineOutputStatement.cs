@@ -10,12 +10,12 @@ namespace ImageQuery.Query
     public class DefineOutputStatement : IQueryStatement
     {
         public string CanvasName { get; set; }
-        public int W { get; set; }
-        public int H { get; set; }
+        public IExpression W { get; set; }
+        public IExpression H { get; set; }
 
         public void Run(IEnvironment env)
         {
-            env.CreateOutput(CanvasName, W, H);
+            env.CreateOutput(CanvasName, (int)W.Evaluate(env).Number, (int)H.Evaluate(env).Number);
         }
     }
 }

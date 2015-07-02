@@ -119,5 +119,10 @@ namespace ImageQuery.Canvas
             Color c = obj as Color;
             return R == c.R && G == c.G && B == c.B && A == c.A;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
