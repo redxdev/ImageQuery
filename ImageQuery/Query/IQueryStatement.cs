@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ImageQuery.Query
 {
-    public interface ISelector
+    interface IQueryStatement
     {
-        
+        void Run(IEnvironment env);
     }
 }

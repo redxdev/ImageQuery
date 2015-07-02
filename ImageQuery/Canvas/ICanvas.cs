@@ -11,11 +11,14 @@ namespace ImageQuery.Canvas
     {
         CanvasMode Mode { get; }
 
-        string Name { get; set; }
+        string Name { get; }
 
-        uint Width { get; }
-        uint Height { get; }
+        int Width { get; }
+        int Height { get; }
 
-        Color this[uint x, uint y] { get; set; }
+        Color this[int x, int y] { get; set; }
+
+        void ForceWrite(int x, int y, Color color);
+        Color ForceRead(int x, int y);
     }
 }

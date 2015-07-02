@@ -8,15 +8,34 @@ namespace ImageQuery.Canvas
 {
     public class BasicCanvas : ICanvas
     {
+        public BasicCanvas(CanvasMode mode, string name, int w, int h)
+        {
+            Mode = mode;
+            Name = name;
+            Width = w;
+            Height = h;
+
+            _data = new Color[w, h];
+            for (int y = 0; y < h; ++y)
+            {
+                for (int x = 0; x < w; ++x)
+                {
+                    _data[x, y] = new Color();
+                }
+            }
+        }
+
         public CanvasMode Mode { get; private set; }
 
-        string Name { get; private set; }
+        public string Name { get; private set; }
 
-        public uint Width { get; private set; }
+        public int Width { get; private set; }
 
-        public uint Height { get; private set; }
+        public int Height { get; private set; }
 
-        public Color this[uint x, uint y]
+        private Color[,] _data = null;
+
+        public Color this[int x, int y]
         {
             get
             {
@@ -29,7 +48,7 @@ namespace ImageQuery.Canvas
                 if(y < 0 || y > Height)
                     throw new IndexOutOfRangeException(string.Format("y value ({0}) is out of range (height = {1})", y, Height));
 
-                return Data[x, y];
+                return _data[x, y];
             }
             set
             {
@@ -42,19 +61,29 @@ namespace ImageQuery.Canvas
                 if (y < 0 || y > Height)
                     throw new IndexOutOfRangeException(string.Format("y value ({0}) is out of range (height = {1})", y, Height));
 
-                Data[x, y] = value;
+                _data[x, y] = value;
             }
         }
 
-        private Color[,] Data = null;
-
-        public BasicCanvas(CanvasMode mode, string name, uint w, uint h)
+        public void ForceWrite(int x, int y, Color color)
         {
-            Mode = mode;
-            Name = name;
-            Data = new Color[w, h];
-            Width = w;
-            Height = h;
+            _data[x, y] = color;
+        }
+
+        public Color ForceRead(int x, int y)
+        {
+            return _data[x, y];
+        }
+
+        public override string ToString()
+        {
+            string dataStr = string.Empty;
+            foreach (Color color in _data)
+            {
+                dataStr += color.ToString() + " ";
+            }
+
+            return string.Format("{0}[{1},{2}] {3}", Name, Width, Height, dataStr);
         }
     }
 }

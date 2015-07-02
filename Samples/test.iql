@@ -6,21 +6,18 @@ INPUT in
 # Defines an output canvas.
 OUTPUT out[in.width, in.height]
 
-# Defines an intermediate canvas
-CANVAS c1[in.width, in.height]
-
 # Sets out to the inverse of in (excluding alpha)
-out = SELECT {1-r,1-g,1-b,a} FROM in
+APPLY SELECT {1-r,1-g,1-b,a} FROM in TO out
 
 # Sets out to in
-out = SELECT color FROM in
+APPLY SELECT color FROM in TO out
 
 # Sets every other horizontal pixel to the inverse of in
 # NOTE: "=" does not technically set the left side equal to the right.
 # It is known as the "assign" operator, and only sets values that are included
-out = SELECT {1-r,1-g,1-b,a} FROM in WHERE x % 2 == 0
+APPLY SELECT {1-r,1-g,1-b,a} FROM in WHERE x % 2 == 0 TO out
 
 # Shifts the entire image right. Note that the y coordinate does not need to be
 # specified if you aren't modifying it. Also note that we aren't selecting the
 # very first column of pixels as that would cause an index out of bounds error.
-out = SELECT {r[x-1],g[x-1],b[x-1]} FROM in WHERE x > 0
+APPLY SELECT {r[x-1],g[x-1],b[x-1]} FROM in WHERE x > 0 TO out
