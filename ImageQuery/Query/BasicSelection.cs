@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageQuery.Canvas;
+using ImageQuery.Environment;
 
 namespace ImageQuery.Query
 {

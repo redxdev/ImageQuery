@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageQuery.Canvas;
+using ImageQuery.Query.Value;
 
 namespace ImageQuery
 {
@@ -53,6 +54,11 @@ namespace ImageQuery
         public IQLType GetIQLType()
         {
             return IQLType.Number;
+        }
+
+        public IQueryValue Index(IQueryValue x, IQueryValue y)
+        {
+            throw new InvalidOperationException("Cannot index object of type canvas");
         }
     }
 }

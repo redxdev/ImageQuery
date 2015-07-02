@@ -1,7 +1,7 @@
 ﻿using System;
 using ImageQuery.Canvas;
 
-namespace ImageQuery
+namespace ImageQuery.Query.Value
 {
     public class CanvasValue : IQueryValue
     {
@@ -54,6 +54,11 @@ namespace ImageQuery
         public IQLType GetIQLType()
         {
             return IQLType.Canvas;
+        }
+
+        public IQueryValue Index(IQueryValue x, IQueryValue y)
+        {
+            throw new InvalidOperationException("Cannot index object of type canvas");
         }
     }
 }

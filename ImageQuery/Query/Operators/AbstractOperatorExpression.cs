@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageQuery.Environment;
+using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators
 {
-    public abstract class AbstractOperator : IExpression
+    public abstract class AbstractOperatorExpression : IExpression
     {
-        public AbstractOperator()
+        public AbstractOperatorExpression()
         {
             AllowDisparateTypes = false;
         }

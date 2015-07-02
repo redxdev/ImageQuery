@@ -1,7 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using ImageQuery.Canvas;
+﻿using ImageQuery.Canvas;
 
-namespace ImageQuery
+namespace ImageQuery.Query.Value
 {
     public interface IQueryValue
     {
@@ -11,5 +10,7 @@ namespace ImageQuery
         bool Boolean { get; set; }
 
         IQLType GetIQLType();
+
+        IQueryValue Index(IQueryValue x, IQueryValue y);
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
+using ImageQuery.Canvas;
+using ImageQuery.Query.Value;
 
-namespace ImageQuery.Canvas
+namespace ImageQuery.Environment
 {
     public class CanvasSelectionEnvironment : IEnvironment
     {
@@ -76,19 +75,48 @@ namespace ImageQuery.Canvas
                     return new NumberValue() {Number = Y};
 
                 case "color":
-                    return new ColorValue() {Color = Canvas[X, Y]};
+                    return new IndexedValue()
+                    {
+                        BaseValue = new ColorValue() {Color = Canvas[X, Y]},
+                        IndexOperation =
+                            (x, y) => new ColorValue() {Color = Canvas[(int) x.Number, y == null ? Y : (int) y.Number]}
+                    };
 
                 case "r":
-                    return new NumberValue() {Number = Canvas[X, Y].R};
+                    return new IndexedValue()
+                    {
+                        BaseValue = new NumberValue() {Number = Canvas[X, Y].R},
+                        IndexOperation =
+                            (x, y) =>
+                                new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].R}
+                    };
 
                 case "g":
-                    return new NumberValue() { Number = Canvas[X, Y].G };
+                    return new IndexedValue()
+                    {
+                        BaseValue = new NumberValue() {Number = Canvas[X, Y].G},
+                        IndexOperation =
+                            (x, y) =>
+                                new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].G}
+                    };
 
                 case "b":
-                    return new NumberValue() { Number = Canvas[X, Y].B };
+                    return new IndexedValue()
+                    {
+                        BaseValue = new NumberValue() {Number = Canvas[X, Y].B},
+                        IndexOperation =
+                            (x, y) =>
+                                new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].B}
+                    };
 
                 case "a":
-                    return new NumberValue() { Number = Canvas[X, Y].A };
+                    return new IndexedValue()
+                    {
+                        BaseValue = new NumberValue() {Number = Canvas[X, Y].A},
+                        IndexOperation =
+                            (x, y) =>
+                                new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].A}
+                    };
 
                 default:
                     return Parent.GetVariable(name);

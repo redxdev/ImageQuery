@@ -20,4 +20,4 @@ APPLY SELECT {1-r,1-g,1-b,a} FROM in WHERE x % 2 == 0 TO out
 # Shifts the entire image right. Note that the y coordinate does not need to be
 # specified if you aren't modifying it. Also note that we aren't selecting the
 # very first column of pixels as that would cause an index out of bounds error.
-APPLY SELECT {r[x-1],g[x-1],b[x-1]} FROM in WHERE x > 0 TO out
+APPLY SELECT color[x-50] FROM in WHERE x > 49 TO out

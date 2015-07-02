@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageQuery;
 using ImageQuery.Canvas;
+using ImageQuery.Environment;
 using ImageQuery.Query;
 using ImageQuery.Query.Operators;
 
@@ -38,37 +39,10 @@ namespace IMQ
                     Selection = new BasicSelection()
                     {
                         CanvasName = "in",
-                        Modulation = new AddExpression()
+                        Modulation = new RetrieveIndexedVariableExpression()
                         {
-                            Left = new SubtractExpression()
-                            {
-                                Left = new ColorExpression()
-                                {
-                                    R = new NumberExpression()
-                                    {
-                                        Value = 1
-                                    },
-                                    A = new NumberExpression()
-                                    {
-                                        Value = 0
-                                    }
-                                },
-                                Right = new RetrieveVariableExpression()
-                                {
-                                    Name = "color"
-                                }
-                            },
-                            Right = new ColorExpression()
-                            {
-                                A = new NumberExpression()
-                                {
-                                    Value = 1
-                                }
-                            }
-                        },
-                        Where = new EqualityExpression()
-                        {
-                            Left = new ModulusExpression()
+                            Name = "color",
+                            X = new SubtractExpression()
                             {
                                 Left = new RetrieveVariableExpression()
                                 {
@@ -76,12 +50,19 @@ namespace IMQ
                                 },
                                 Right = new NumberExpression()
                                 {
-                                    Value = 2
+                                    Value = 50
                                 }
+                            }
+                        },
+                        Where = new GreaterThanExpression()
+                        {
+                            Left = new RetrieveVariableExpression()
+                            {
+                                Name = "x"
                             },
                             Right = new NumberExpression()
                             {
-                                Value = 0
+                                Value = 49
                             }
                         }
                     }

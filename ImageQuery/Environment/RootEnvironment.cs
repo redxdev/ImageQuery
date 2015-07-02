@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ImageQuery.Canvas;
-using ImageQuery.Query;
+using ImageQuery.Query.Value;
 
-namespace ImageQuery
+namespace ImageQuery.Environment
 {
     public class RootEnvironment : IEnvironment
     {

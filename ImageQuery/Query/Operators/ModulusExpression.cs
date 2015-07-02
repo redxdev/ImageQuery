@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageQuery.Environment;
+using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators
 {
-    public class ModulusExpression : AbstractOperator
+    public class ModulusExpression : AbstractOperatorExpression
     {
         public override IQueryValue EvaluateOperator(IEnvironment env, IQueryValue left, IQueryValue right)
         {

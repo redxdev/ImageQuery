@@ -43,21 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanValue.cs" />
+    <Compile Include="Query\Operators\GreaterThanExpression.cs" />
+    <Compile Include="Query\RetrieveIndexedVariableExpression.cs" />
+    <Compile Include="Query\Value\BooleanValue.cs" />
     <Compile Include="Canvas\BasicCanvas.cs" />
     <Compile Include="Canvas\BitmapCanvasLoader.cs" />
     <Compile Include="Canvas\CanvasExtensions.cs" />
-    <Compile Include="Canvas\CanvasSelectionEnvironment.cs" />
+    <Compile Include="Environment\CanvasSelectionEnvironment.cs" />
     <Compile Include="Canvas\CanvasMode.cs" />
     <Compile Include="Canvas\Color.cs" />
     <Compile Include="Canvas\DelegatedCanvasLoader.cs" />
     <Compile Include="Canvas\ICanvas.cs" />
     <Compile Include="Canvas\ICanvasLoader.cs" />
-    <Compile Include="ColorValue.cs" />
-    <Compile Include="IQLType.cs" />
+    <Compile Include="Query\Value\ColorValue.cs" />
+    <Compile Include="Query\Value\IQLType.cs" />
     <Compile Include="MathHelper.cs" />
-    <Compile Include="NumberValue.cs" />
-    <Compile Include="IQLSettings.cs" />
+    <Compile Include="Query\Value\IndexedValue.cs" />
+    <Compile Include="Query\Value\NumberValue.cs" />
+    <Compile Include="Environment\IQLSettings.cs" />
     <Compile Include="Query\ApplyStatement.cs" />
     <Compile Include="Query\BasicSelection.cs" />
     <Compile Include="Query\ColorExpression.cs" />
@@ -68,18 +71,18 @@
     <Compile Include="Query\IQueryStatement.cs" />
     <Compile Include="Query\ISelection.cs" />
     <Compile Include="Query\NumberExpression.cs" />
-    <Compile Include="Query\Operators\AbstractOperator.cs" />
+    <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\EqualityExpression.cs" />
     <Compile Include="Query\Operators\ModulusExpression.cs" />
     <Compile Include="Query\Operators\SubtractExpression.cs" />
     <Compile Include="Query\Operators\AddExpression.cs" />
     <Compile Include="Query\RetrieveVariableExpression.cs" />
     <Compile Include="Query\Unit.cs" />
-    <Compile Include="RootEnvironment.cs" />
-    <Compile Include="IEnvironment.cs" />
+    <Compile Include="Environment\RootEnvironment.cs" />
+    <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CanvasValue.cs" />
-    <Compile Include="IQueryValue.cs" />
+    <Compile Include="Query\Value\CanvasValue.cs" />
+    <Compile Include="Query\Value\IQueryValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ImageQuery.Canvas;
 
-namespace ImageQuery
+namespace ImageQuery.Query.Value
 {
     public class ColorValue : IQueryValue
     {
@@ -53,6 +49,11 @@ namespace ImageQuery
         public IQLType GetIQLType()
         {
             return IQLType.Color;
+        }
+
+        public IQueryValue Index(IQueryValue x, IQueryValue y)
+        {
+            throw new InvalidOperationException("Cannot index object of type canvas");
         }
     }
 }

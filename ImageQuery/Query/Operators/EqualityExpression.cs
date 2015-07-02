@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageQuery.Canvas;
+using ImageQuery.Environment;
+using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators
 {
-    public class EqualityExpression : AbstractOperator
+    public class EqualityExpression : AbstractOperatorExpression
     {
         public EqualityExpression()
         {
