@@ -1,5 +1,5 @@
 # Invert colors
 INPUT in
-OUTPUT out[1000,1000]
+OUTPUT out[in.width, in.height]
 
-APPLY SELECT {1-r,1-g,1-b,a} FROM in TO out
+out: SELECT {1-r,1-g,1-b,a} FROM in

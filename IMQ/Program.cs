@@ -9,6 +9,7 @@ using ImageQuery.Environment;
 using ImageQuery.Language;
 using ImageQuery.Query;
 using ImageQuery.Query.Operators;
+using ImageQuery.Query.Statements;
 
 namespace IMQ
 {
@@ -50,8 +51,6 @@ namespace IMQ
                 Console.WriteLine(e);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
-
-            Console.ReadKey();
         }
     }
 }

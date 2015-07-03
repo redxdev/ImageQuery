@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using ImageQuery.Query;
+using ImageQuery.Query.Statements;
 
 namespace ImageQuery.Language
 {

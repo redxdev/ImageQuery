@@ -22,9 +22,6 @@ namespace ImageQuery.Environment
 
         public ICanvas Canvas { get; private set; }
 
-        public int X { get; set; }
-        public int Y { get; set; }
-
         public ICanvas CreateInput(string name)
         {
             return Parent.CreateInput(name);
@@ -45,13 +42,22 @@ namespace ImageQuery.Environment
             Parent.CreateVariable(name, value);
         }
 
+        public int X { get; set; }
+        public int Y { get; set; }
+
         public void SetVariable(string name, IQueryValue value)
         {
             switch (name)
             {
+                case "width":
+                case "height":
                 case "x":
                 case "y":
                 case "color":
+                case "red":
+                case "green":
+                case "blue":
+                case "alpha":
                 case "r":
                 case "g":
                 case "b":
@@ -68,6 +74,12 @@ namespace ImageQuery.Environment
         {
             switch (name)
             {
+                case "width":
+                    return new NumberValue() { Number = Canvas.Width };
+
+                case "height":
+                    return new NumberValue() { Number = Canvas.Height };
+
                 case "x":
                     return new NumberValue() {Number = X};
 
@@ -82,6 +94,7 @@ namespace ImageQuery.Environment
                             (x, y) => new ColorValue() {Color = Canvas[(int) x.Number, y == null ? Y : (int) y.Number]}
                     };
 
+                case "red":
                 case "r":
                     return new IndexedValue()
                     {
@@ -91,6 +104,7 @@ namespace ImageQuery.Environment
                                 new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].R}
                     };
 
+                case "green":
                 case "g":
                     return new IndexedValue()
                     {
@@ -100,6 +114,7 @@ namespace ImageQuery.Environment
                                 new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].G}
                     };
 
+                case "blue":
                 case "b":
                     return new IndexedValue()
                     {
@@ -109,6 +124,7 @@ namespace ImageQuery.Environment
                                 new NumberValue() {Number = Canvas[(int) x.Number, y == null ? Y : (int) y.Number].B}
                     };
 
+                case "alpha":
                 case "a":
                     return new IndexedValue()
                     {

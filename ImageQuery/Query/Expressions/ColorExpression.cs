@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImageQuery.Canvas;
+﻿using ImageQuery.Canvas;
 using ImageQuery.Environment;
 using ImageQuery.Query.Value;
 
-namespace ImageQuery.Query
+namespace ImageQuery.Query.Expressions
 {
     public class ColorExpression : IExpression
     {

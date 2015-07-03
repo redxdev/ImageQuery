@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\CanvasEnvironment.cs" />
     <Compile Include="Language\IQLang.g4.lexer.cs">
       <DependentUpon>IQLang.g4</DependentUpon>
     </Compile>
@@ -56,7 +57,8 @@
     <Compile Include="Language\LexerErrorListener.cs" />
     <Compile Include="Language\ParseException.cs" />
     <Compile Include="Language\ParserErrorListener.cs" />
-    <Compile Include="Query\BooleanExpression.cs" />
+    <Compile Include="Query\Expressions\BooleanExpression.cs" />
+    <Compile Include="Query\Expressions\EnterEnvironmentExpression.cs" />
     <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\AndExpression.cs" />
     <Compile Include="Query\Operators\DivideExpression.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="Query\Operators\MultiplyExpression.cs" />
     <Compile Include="Query\Operators\NotExpression.cs" />
     <Compile Include="Query\Operators\OrExpression.cs" />
-    <Compile Include="Query\RetrieveIndexedVariableExpression.cs" />
+    <Compile Include="Query\Expressions\RetrieveIndexedVariableExpression.cs" />
     <Compile Include="Query\Value\BooleanValue.cs" />
     <Compile Include="Canvas\BasicCanvas.cs" />
     <Compile Include="Canvas\BitmapCanvasLoader.cs" />
@@ -85,21 +87,21 @@
     <Compile Include="Query\Value\IndexedValue.cs" />
     <Compile Include="Query\Value\NumberValue.cs" />
     <Compile Include="Environment\IQLSettings.cs" />
-    <Compile Include="Query\ApplyStatement.cs" />
+    <Compile Include="Query\Statements\ApplyStatement.cs" />
     <Compile Include="Query\BasicSelection.cs" />
-    <Compile Include="Query\ColorExpression.cs" />
-    <Compile Include="Query\DefineIntermediateStatement.cs" />
-    <Compile Include="Query\DefineInputStatement.cs" />
-    <Compile Include="Query\DefineOutputStatement.cs" />
-    <Compile Include="Query\IExpression.cs" />
-    <Compile Include="Query\IQueryStatement.cs" />
+    <Compile Include="Query\Expressions\ColorExpression.cs" />
+    <Compile Include="Query\Statements\DefineIntermediateStatement.cs" />
+    <Compile Include="Query\Statements\DefineInputStatement.cs" />
+    <Compile Include="Query\Statements\DefineOutputStatement.cs" />
+    <Compile Include="Query\Expressions\IExpression.cs" />
+    <Compile Include="Query\Statements\IQueryStatement.cs" />
     <Compile Include="Query\ISelection.cs" />
-    <Compile Include="Query\NumberExpression.cs" />
+    <Compile Include="Query\Expressions\NumberExpression.cs" />
     <Compile Include="Query\Operators\EqualityExpression.cs" />
     <Compile Include="Query\Operators\ModulusExpression.cs" />
     <Compile Include="Query\Operators\SubtractExpression.cs" />
     <Compile Include="Query\Operators\AddExpression.cs" />
-    <Compile Include="Query\RetrieveVariableExpression.cs" />
+    <Compile Include="Query\Expressions\RetrieveVariableExpression.cs" />
     <Compile Include="Query\Unit.cs" />
     <Compile Include="Environment\RootEnvironment.cs" />
     <Compile Include="Environment\IEnvironment.cs" />

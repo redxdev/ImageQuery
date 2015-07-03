@@ -1,0 +1,5 @@
+# Greyscale
+INPUT in
+OUTPUT out[in.width, in.height]
+
+out: SELECT {(red + green + blue)/3} FROM in

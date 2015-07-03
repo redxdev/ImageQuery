@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageQuery.Environment;
+using ImageQuery.Query.Expressions;
 using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators

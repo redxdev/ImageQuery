@@ -6,6 +6,8 @@ grammar IQLang;
 	using System;
 	using System.Collections;
 	using ImageQuery.Query;
+	using ImageQuery.Query.Expressions;
+	using ImageQuery.Query.Statements;
 	using ImageQuery.Query.Operators;
 	using ImageQuery.Query.Value;
 }
@@ -62,7 +64,9 @@ intermediate_statement returns [IQueryStatement stm]
 	;
 
 apply_statement returns [IQueryStatement stm]
-	:	APPLY selection TO n=IDENT {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select};}
+	:	n=IDENT COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select};}
+	|	n=IDENT L_BRACKET x=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XModulation = $x.expr};}
+	|	n=IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XModulation = $x.expr, YModulation = $y.expr};}
 	;
 
 selection returns [ISelection select]
@@ -117,9 +121,7 @@ atom returns [IExpression expr]
 	|	color {$expr = $color.expr;}
 	|	B_TRUE {$expr = new BooleanExpression() {Value = true};}
 	|	B_FALSE {$expr = new BooleanExpression() {Value = false};}
-	|	IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr, Y = $y.expr};}
-	|	IDENT L_BRACKET x=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr};}
-	|	IDENT {$expr = new RetrieveVariableExpression() {Name = $IDENT.text};}
+	|	variable {$expr = $variable.expr;}
 	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
 	;
 
@@ -136,7 +138,15 @@ color returns [IExpression expr]
 	;
 
 number returns [IExpression expr]
-	:	NUMBER {$expr = new NumberExpression() {Value = Convert.ToSingle($NUMBER.text)};}
+	:	MINUS NUMBER {$expr = new NumberExpression() {Value = -Convert.ToSingle($NUMBER.text)};}
+	|	NUMBER {$expr = new NumberExpression() {Value = Convert.ToSingle($NUMBER.text)};}
+	;
+
+variable returns [IExpression expr]
+	:	IDENT DOT v=variable {$expr = new EnterEnvironmentExpression() {CanvasName = $IDENT.text, Subexpression = $v.expr};}
+	|	IDENT L_BRACKET x=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr};}
+	|	IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr, Y = $y.expr};}
+	|	IDENT {$expr = new RetrieveVariableExpression() {Name = $IDENT.text};}
 	;
 
 /*
@@ -203,6 +213,10 @@ L_BRACE
 	:	'{'
 	;
 
+R_BRACE
+	:	'}'
+	;
+
 L_PAREN
 	:	'('
 	;
@@ -211,12 +225,16 @@ R_PAREN
 	:	')'
 	;
 
-R_BRACE
-	:	'}'
+COLON
+	:	':'
 	;
 
 COMMA
 	:	','
+	;
+
+DOT
+	:	'.'
 	;
 
 EQUAL
@@ -256,7 +274,7 @@ MODULUS
 	;
 
 NUMBER
-	:	'-'?
+	:
 	(
 		[0-9]* '.' [0-9]+
 	|	[0-9]+

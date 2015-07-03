@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageQuery.Canvas;
 using ImageQuery.Environment;
+using ImageQuery.Query.Expressions;
 
 namespace ImageQuery.Query
 {
