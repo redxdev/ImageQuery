@@ -26,7 +26,8 @@ namespace ImageQuery.Query.Value
                     break;
 
                 case IQLType.Canvas:
-                    throw new NotImplementedException("Setting variables of type canvas is not supported at this time");
+                    l.Canvas = r.Canvas;
+                    break;
 
                 case IQLType.Color:
                     l.Color = r.Color.Clone();

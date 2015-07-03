@@ -1,0 +1,6 @@
+# Color Multiplication
+input in
+output out[in.width, in.height]
+param col inColor
+
+out: select inColor * color from in

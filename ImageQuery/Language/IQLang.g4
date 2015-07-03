@@ -53,6 +53,7 @@ statement returns [IQueryStatement stm]
 	|	define_color_statement {$stm = $define_color_statement.stm;}
 	|	define_number_parameter_statement {$stm = $define_number_parameter_statement.stm;}
 	|	define_color_parameter_statement {$stm = $define_color_parameter_statement.stm;}
+	|	define_iterator_parameter_statement {$stm = $define_iterator_parameter_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
 	|	set_variable_statement {$stm = $set_variable_statement.stm;}
 	;
@@ -66,12 +67,18 @@ output_statement returns [IQueryStatement stm]
 	;
 
 intermediate_statement returns [IQueryStatement stm]
-	:	CANVAS IDENT L_BRACKET w=expression COMMA h=expression R_BRACKET {$stm = new DefineIntermediateStatement() {CanvasName = $IDENT.text, W = $w.expr, H = $h.expr};}
+	:	CANVAS IDENT L_BRACKET w=expression COMMA h=expression R_BRACKET {$stm = new DefineIntermediateStatement() {Name = $IDENT.text, W = $w.expr, H = $h.expr};}
+	|	CANVAS IDENT EQUAL expression {$stm = new DefineIntermediateStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
 define_number_statement returns [IQueryStatement stm]
 	:	NUMBER_KW IDENT {$stm = new DefineNumberStatement() {Name = $IDENT.text};}
 	|	NUMBER_KW IDENT EQUAL expression {$stm = new DefineNumberStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
+define_color_statement returns [IQueryStatement stm]
+	:	COLOR IDENT {$stm = new DefineColorStatement() {Name = $IDENT.text};}
+	|	COLOR IDENT EQUAL expression {$stm = new DefineColorStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
 define_number_parameter_statement returns [IQueryStatement stm]
@@ -82,9 +89,8 @@ define_color_parameter_statement returns [IQueryStatement stm]
 	:	PARAM COLOR IDENT {$stm = new DefineColorParameterStatement() {Name = $IDENT.text};}
 	;
 
-define_color_statement returns [IQueryStatement stm]
-	:	COLOR IDENT {$stm = new DefineColorStatement() {Name = $IDENT.text};}
-	|	COLOR IDENT EQUAL expression {$stm = new DefineColorStatement() {Name = $IDENT.text, Value = $expression.expr};}
+define_iterator_parameter_statement returns [IQueryStatement stm]
+	:	PARAM ITERATOR IDENT {$stm = new DefineIteratorParameterStatement() {Name = $IDENT.text};}
 	;
 
 apply_statement returns [IQueryStatement stm]
@@ -201,6 +207,10 @@ OUTPUT
 
 CANVAS
 	:	'canvas' | 'CANVAS'
+	;
+
+ITERATOR
+	:	'iterator' | 'ITERATOR'
 	;
 
 PARAM
