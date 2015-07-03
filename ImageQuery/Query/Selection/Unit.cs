@@ -1,6 +1,6 @@
 ﻿using ImageQuery.Canvas;
 
-namespace ImageQuery.Query
+namespace ImageQuery.Query.Selection
 {
     public class Unit
     {

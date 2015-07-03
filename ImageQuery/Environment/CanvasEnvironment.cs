@@ -52,7 +52,6 @@ namespace ImageQuery.Environment
 
                 default:
                     throw new KeyNotFoundException(string.Format("Variable {0} does not exist in this context", name));
-                    break;
             }
         }
 

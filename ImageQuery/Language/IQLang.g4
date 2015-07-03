@@ -7,8 +7,9 @@ grammar IQLang;
 	using System.Collections;
 	using ImageQuery.Query;
 	using ImageQuery.Query.Expressions;
-	using ImageQuery.Query.Statements;
 	using ImageQuery.Query.Operators;
+	using ImageQuery.Query.Statements;
+	using ImageQuery.Query.Selection;
 	using ImageQuery.Query.Value;
 }
 

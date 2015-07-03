@@ -1,6 +1,7 @@
 ﻿using ImageQuery.Canvas;
 using ImageQuery.Environment;
 using ImageQuery.Query.Expressions;
+using ImageQuery.Query.Selection;
 
 namespace ImageQuery.Query.Statements
 {
@@ -16,7 +17,7 @@ namespace ImageQuery.Query.Statements
         public void Run(IEnvironment env)
         {
             ICanvas canvas = env.GetVariable(CanvasName).Canvas;
-            Selection.Execute(env, true);
+            Selection.Execute(env);
 
             Unit[] units = Selection.Results();
             CanvasSelectionEnvironment canvasEnv = new CanvasSelectionEnvironment(env, canvas);

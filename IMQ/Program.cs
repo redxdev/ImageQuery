@@ -13,11 +13,10 @@ namespace IMQ
     {
         private static void PrintUsage()
         {
-            Console.WriteLine("IQM [-h|--help] [-n|--no-parallel] [-p|--process-count number] [-i|--input name path] [-o|--output name path] <script>");
+            Console.WriteLine("IQM [-h|--help] [-p|--parallel] [-i|--input name path] [-o|--output name path] <script>");
             Console.WriteLine("Options:");
             Console.WriteLine("  -h  --help           Display this help text.");
-            Console.WriteLine("  -n  --no-parallel    Disable parallel processing (default: parallel processing enabled).");
-            Console.WriteLine("  -p  --process-count  Set the number of processes used for parallel processing (default: # of logical processors).");
+            Console.WriteLine("  -p  --parallel       Enable parallel processing/threading (default: no threading).");
             Console.WriteLine("  -i  --input          Define the location for an input.");
             Console.WriteLine("        script         The path to the IQL script to execute.");
         }
@@ -31,8 +30,7 @@ namespace IMQ
             }
 
             IQLSettings settings = new IQLSettings();
-            settings.AllowParallel = true;
-            settings.ProcessCount = Environment.ProcessorCount;
+            settings.AllowParallel = false;
 
             BitmapCanvasLoader canvasLoader = new BitmapCanvasLoader();
             Dictionary<string, string> outputPaths = new Dictionary<string, string>();
@@ -49,31 +47,10 @@ namespace IMQ
                         PrintUsage();
                         return;
 
-                    case "--no-parallel":
-                    case "-n":
-                        settings.AllowParallel = false;
-                        break;
-
-                    case "--process-count":
+                    case "--parallel":
                     case "-p":
-                    {
-                        ++i;
-                        if (i >= args.Length)
-                        {
-                            Console.WriteLine("{0} requires 1 argument", arg);
-                            return;
-                        }
-
-                        int value;
-                        if (!int.TryParse(args[i], out value) || value < 1)
-                        {
-                            Console.WriteLine("Argument to {0} must be an integer >= 1", arg);
-                            return;
-                        }
-
-                        settings.ProcessCount = value;
+                        settings.AllowParallel = true;
                         break;
-                    }
 
                     case "--input":
                     case "-i":
@@ -152,7 +129,7 @@ namespace IMQ
 
             if (settings.AllowParallel)
             {
-                Console.WriteLine("Running in parallel mode with {0} threads", settings.ProcessCount);
+                Console.WriteLine("Running in parallel mode");
             }
             else
             {
