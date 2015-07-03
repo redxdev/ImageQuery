@@ -20,6 +20,7 @@ namespace ImageQuery.Environment
         private ICanvasLoader _canvasLoader = null;
 
         private Dictionary<string, IQueryValue> _variables = new Dictionary<string, IQueryValue>();
+        private Dictionary<string, IQueryValue> _parameters = new Dictionary<string, IQueryValue>(); 
 
         public void SetCanvasLoader(ICanvasLoader loader)
         {
@@ -36,7 +37,7 @@ namespace ImageQuery.Environment
 
             ICanvas canvas = _canvasLoader.LoadCanvas(name);
             if (canvas == null)
-                throw new ArgumentException(string.Format("Received null canvas for {0}", name), "name");
+                throw new ArgumentException(string.Format("Received null canvas for \"{0}\"", name), "name");
 
             CanvasValue value = new CanvasValue() {Canvas = canvas};
             CreateVariable(canvas.Name, value);
@@ -78,7 +79,7 @@ namespace ImageQuery.Environment
         public void CreateVariable(string name, IQueryValue value)
         {
             if (_variables.ContainsKey(name))
-                throw new ArgumentException(string.Format("A variable with the name {0} already exists", name), "name");
+                throw new ArgumentException(string.Format("A variable with the name \"{0}\" already exists", name), "name");
 
             _variables.Add(name, value);
         }
@@ -92,7 +93,21 @@ namespace ImageQuery.Environment
         {
             IQueryValue value = null;
             if (!_variables.TryGetValue(name, out value))
-                throw new KeyNotFoundException(string.Format("Unknown variable {0}", name));
+                throw new KeyNotFoundException(string.Format("Variable \"{0}\" is not defined", name));
+
+            return value;
+        }
+
+        public void CreateParameter(string name, IQueryValue value)
+        {
+            _parameters.Add(name, value);
+        }
+
+        public IQueryValue GetParameter(string name)
+        {
+            IQueryValue value = null;
+            if (!_parameters.TryGetValue(name, out value))
+                throw new KeyNotFoundException(string.Format("Parameter \"{0}\" is not defined", name));
 
             return value;
         }

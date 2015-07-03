@@ -51,6 +51,8 @@ statement returns [IQueryStatement stm]
 	|	intermediate_statement {$stm = $intermediate_statement.stm;}
 	|	define_number_statement {$stm = $define_number_statement.stm;}
 	|	define_color_statement {$stm = $define_color_statement.stm;}
+	|	define_number_parameter_statement {$stm = $define_number_parameter_statement.stm;}
+	|	define_color_parameter_statement {$stm = $define_color_parameter_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
 	|	set_variable_statement {$stm = $set_variable_statement.stm;}
 	;
@@ -70,6 +72,14 @@ intermediate_statement returns [IQueryStatement stm]
 define_number_statement returns [IQueryStatement stm]
 	:	NUMBER_KW IDENT {$stm = new DefineNumberStatement() {Name = $IDENT.text};}
 	|	NUMBER_KW IDENT EQUAL expression {$stm = new DefineNumberStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
+define_number_parameter_statement returns [IQueryStatement stm]
+	:	PARAM NUMBER_KW IDENT {$stm = new DefineNumberParameterStatement() {Name = $IDENT.text};}
+	;
+
+define_color_parameter_statement returns [IQueryStatement stm]
+	:	PARAM COLOR IDENT {$stm = new DefineColorParameterStatement() {Name = $IDENT.text};}
 	;
 
 define_color_statement returns [IQueryStatement stm]
@@ -135,13 +145,17 @@ notExpr returns [IExpression expr]
 	;
 
 atom returns [IExpression expr]
+	:	value {$expr = $value.expr;}
+	|	variable {$expr = $variable.expr;}
+	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
+	;
+
+value returns [IExpression expr]
 	:	number {$expr = $number.expr;}
 	|	color {$expr = $color.expr;}
 	|	B_TRUE {$expr = new BooleanExpression() {Value = true};}
 	|	B_FALSE {$expr = new BooleanExpression() {Value = false};}
-	|	variable {$expr = $variable.expr;}
 	|	iterator {$expr = $iterator.expr;}
-	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
 	;
 
 color returns [IExpression expr]
@@ -198,7 +212,7 @@ COLOR
 	;
 
 NUMBER_KW
-	:	'number' | 'NUMBER'
+	:	'num' | 'NUM'
 	;
 
 APPLY

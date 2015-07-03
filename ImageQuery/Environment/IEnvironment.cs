@@ -18,5 +18,9 @@ namespace ImageQuery.Environment
         void SetVariable(string name, IQueryValue value);
 
         IQueryValue GetVariable(string name);
+
+        void CreateParameter(string name, IQueryValue value);
+
+        IQueryValue GetParameter(string name);
     }
 }

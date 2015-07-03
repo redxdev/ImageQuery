@@ -138,5 +138,15 @@ namespace ImageQuery.Environment
                     return Parent.GetVariable(name);
             }
         }
+
+        public void CreateParameter(string name, IQueryValue value)
+        {
+            Parent.CreateParameter(name, value);
+        }
+
+        public IQueryValue GetParameter(string name)
+        {
+            return Parent.GetParameter(name);
+        }
     }
 }

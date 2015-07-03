@@ -6,6 +6,7 @@ using ImageQuery.Canvas;
 using ImageQuery.Environment;
 using ImageQuery.Language;
 using ImageQuery.Query.Statements;
+using ImageQuery.Query.Value;
 
 namespace IMQ
 {
@@ -13,12 +14,14 @@ namespace IMQ
     {
         private static void PrintUsage()
         {
-            Console.WriteLine("IQM [-h|--help] [-p|--parallel] [-i|--input name path] [-o|--output name path] <script>");
+            Console.WriteLine("IQM [options] <script>");
             Console.WriteLine("Options:");
-            Console.WriteLine("  -h  --help           Display this help text.");
-            Console.WriteLine("  -p  --parallel       Enable parallel processing/threading (default: no threading).");
-            Console.WriteLine("  -i  --input          Define the location for an input.");
-            Console.WriteLine("        script         The path to the IQL script to execute.");
+            Console.WriteLine("  -d  --define <name> <value>   Define a parameter for the script.");
+            Console.WriteLine("  -h  --help                    Display this help text.");
+            Console.WriteLine("  -i  --input  <name> <path>    Define the location for an input.");
+            Console.WriteLine("  -o  --output <name> <path>    Define the location for an output.");
+            Console.WriteLine("  -p  --parallel                Enable parallel processing/threading (default: no threading).");
+            Console.WriteLine("        <script>                The path to the IQL script to execute.");
         }
 
         public static void Main(string[] args)
@@ -34,6 +37,7 @@ namespace IMQ
 
             BitmapCanvasLoader canvasLoader = new BitmapCanvasLoader();
             Dictionary<string, string> outputPaths = new Dictionary<string, string>();
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
             string scriptFilename = string.Empty;
 
             int i = 0;
@@ -98,6 +102,29 @@ namespace IMQ
                         break;
                     }
 
+                    case "-d":
+                    case "--d":
+                    {
+                        ++i;
+                        if (i >= args.Length)
+                        {
+                            Console.WriteLine("{0} requires 2 arguments", arg);
+                            return;
+                        }
+                        string name = args[i];
+
+                        ++i;
+                        if (i > args.Length)
+                        {
+                            Console.WriteLine("{0} requires 2 arguments", arg);
+                            return;
+                        }
+                        string value = args[i];
+
+                        parameters.Add(name, value);
+                        break;
+                    }
+
                     default:
                         if (!string.IsNullOrEmpty(scriptFilename))
                         {
@@ -116,6 +143,33 @@ namespace IMQ
             {
                 Console.WriteLine("No input script was specified.");
                 return;
+            }
+
+            RootEnvironment root = new RootEnvironment(settings);
+
+            foreach (var entry in parameters)
+            {
+                try
+                {
+                    IQueryValue value = LanguageUtilities.ParseValueFromString(root, entry.Value);
+                    root.CreateParameter(entry.Key, value);
+                }
+                catch (ParseException e)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Parameter {0} is not a valid value:", entry.Key);
+                    Console.WriteLine(e);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Unable to define parameter {0}:", entry.Key);
+                    Console.WriteLine(e);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    return;
+                }
             }
 
             if (outputPaths.Count == 0)
@@ -140,8 +194,6 @@ namespace IMQ
             stopwatch.Start();
 
             Console.WriteLine("Loading IQL...");
-
-            RootEnvironment root = new RootEnvironment(settings);
             root.SetCanvasLoader(canvasLoader);
 
             IQueryStatement[] statements = null;

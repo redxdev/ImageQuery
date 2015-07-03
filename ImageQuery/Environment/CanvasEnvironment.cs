@@ -69,5 +69,15 @@ namespace ImageQuery.Environment
                     throw new KeyNotFoundException(string.Format("Variable {0} does not exist in this context", name));
             }
         }
+
+        public void CreateParameter(string name, IQueryValue value)
+        {
+            Parent.CreateParameter(name, value);
+        }
+
+        public IQueryValue GetParameter(string name)
+        {
+            return Parent.GetParameter(name);
+        }
     }
 }
