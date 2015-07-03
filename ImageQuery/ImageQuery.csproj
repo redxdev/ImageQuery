@@ -61,6 +61,7 @@
     <Compile Include="Language\ParserErrorListener.cs" />
     <Compile Include="Query\Expressions\BooleanExpression.cs" />
     <Compile Include="Query\Expressions\EnterEnvironmentExpression.cs" />
+    <Compile Include="Query\Expressions\EnterSelectionEnvironmentExpression.cs" />
     <Compile Include="Query\Expressions\IteratorExpression.cs" />
     <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\AndExpression.cs" />

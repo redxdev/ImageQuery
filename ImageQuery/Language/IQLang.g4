@@ -139,8 +139,8 @@ atom returns [IExpression expr]
 	|	color {$expr = $color.expr;}
 	|	B_TRUE {$expr = new BooleanExpression() {Value = true};}
 	|	B_FALSE {$expr = new BooleanExpression() {Value = false};}
-	|	iterator {$expr = $iterator.expr;}
 	|	variable {$expr = $variable.expr;}
+	|	iterator {$expr = $iterator.expr;}
 	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
 	;
 
@@ -162,7 +162,8 @@ number returns [IExpression expr]
 	;
 
 variable returns [IExpression expr]
-	:	IDENT DOT v=variable {$expr = new EnterEnvironmentExpression() {Name = $IDENT.text, Subexpression = $v.expr};}
+	:	IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET DOT v=variable {$expr = new EnterSelectionEnvironmentExpression() {Name = $IDENT.text, X = $x.expr, Y = $y.expr, Subexpression = $v.expr};}
+	|	IDENT DOT v=variable {$expr = new EnterEnvironmentExpression() {Name = $IDENT.text, Subexpression = $v.expr};}
 	|	IDENT L_BRACKET x=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr};}
 	|	IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr, Y = $y.expr};}
 	|	IDENT {$expr = new RetrieveVariableExpression() {Name = $IDENT.text};}
@@ -193,7 +194,7 @@ PARAM
 	;
 
 COLOR
-	:	'color' | 'COLOR'
+	:	'col' | 'COL'
 	;
 
 NUMBER_KW
