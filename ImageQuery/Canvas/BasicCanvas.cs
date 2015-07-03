@@ -10,6 +10,12 @@ namespace ImageQuery.Canvas
     {
         public BasicCanvas(CanvasMode mode, string name, int w, int h)
         {
+            if(w < 0)
+                throw new ArgumentException("Width cannot be < 0", "w");
+
+            if(h < 0)
+                throw new ArgumentException("Height cannot be < 0", "h");
+
             Mode = mode;
             Name = name;
             Width = w;

@@ -124,5 +124,10 @@ namespace ImageQuery.Canvas
         {
             return base.GetHashCode();
         }
+
+        public Color Clone()
+        {
+            return new Color(R, G, B, A);
+        }
     }
 }

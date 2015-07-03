@@ -49,7 +49,10 @@ statement returns [IQueryStatement stm]
 	:	input_statement {$stm = $input_statement.stm;}
 	|	output_statement {$stm = $output_statement.stm;}
 	|	intermediate_statement {$stm = $intermediate_statement.stm;}
+	|	define_number_statement {$stm = $define_number_statement.stm;}
+	|	define_color_statement {$stm = $define_color_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
+	|	set_variable_statement {$stm = $set_variable_statement.stm;}
 	;
 
 input_statement returns [IQueryStatement stm]
@@ -64,15 +67,29 @@ intermediate_statement returns [IQueryStatement stm]
 	:	CANVAS IDENT L_BRACKET w=expression COMMA h=expression R_BRACKET {$stm = new DefineIntermediateStatement() {CanvasName = $IDENT.text, W = $w.expr, H = $h.expr};}
 	;
 
+define_number_statement returns [IQueryStatement stm]
+	:	NUMBER_KW IDENT {$stm = new DefineNumberStatement() {Name = $IDENT.text};}
+	|	NUMBER_KW IDENT EQUAL expression {$stm = new DefineNumberStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
+define_color_statement returns [IQueryStatement stm]
+	:	COLOR IDENT {$stm = new DefineColorStatement() {Name = $IDENT.text};}
+	|	COLOR IDENT EQUAL expression {$stm = new DefineColorStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
 apply_statement returns [IQueryStatement stm]
 	:	n=IDENT COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select};}
 	|	n=IDENT L_BRACKET x=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XManipulation = $x.expr};}
 	|	n=IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XManipulation = $x.expr, YManipulation = $y.expr};}
 	;
 
+set_variable_statement returns [IQueryStatement stm]
+	:	IDENT EQUAL expression {$stm = new SetVariableStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
 selection returns [ISelection select]
-	:	SELECT m=expression FROM n=IDENT {$select = new BasicSelection() {CanvasName = $n.text, Manipulation = $m.expr};}
-	|	SELECT m=expression FROM n=IDENT WHERE w=expression {$select = new BasicSelection() {CanvasName = $n.text, Manipulation = $m.expr, Where = $w.expr};}
+	:	SELECT m=expression FROM c=expression {$select = new BasicSelection() {Canvas = $c.expr, Manipulation = $m.expr};}
+	|	SELECT m=expression FROM c=expression WHERE w=expression {$select = new BasicSelection() {Canvas = $c.expr, Manipulation = $m.expr, Where = $w.expr};}
 	;
 
 expression returns [IExpression expr]
@@ -122,6 +139,7 @@ atom returns [IExpression expr]
 	|	color {$expr = $color.expr;}
 	|	B_TRUE {$expr = new BooleanExpression() {Value = true};}
 	|	B_FALSE {$expr = new BooleanExpression() {Value = false};}
+	|	iterator {$expr = $iterator.expr;}
 	|	variable {$expr = $variable.expr;}
 	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
 	;
@@ -144,10 +162,14 @@ number returns [IExpression expr]
 	;
 
 variable returns [IExpression expr]
-	:	IDENT DOT v=variable {$expr = new EnterEnvironmentExpression() {CanvasName = $IDENT.text, Subexpression = $v.expr};}
+	:	IDENT DOT v=variable {$expr = new EnterEnvironmentExpression() {Name = $IDENT.text, Subexpression = $v.expr};}
 	|	IDENT L_BRACKET x=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr};}
 	|	IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET {$expr = new RetrieveIndexedVariableExpression() {Name = $IDENT.text, X = $x.expr, Y = $y.expr};}
 	|	IDENT {$expr = new RetrieveVariableExpression() {Name = $IDENT.text};}
+	;
+
+iterator returns [IExpression expr]
+	: L_BRACKET w=expression COMMA h=expression R_BRACKET {$expr = new IteratorExpression() {Width = $w.expr, Height = $h.expr};}
 	;
 
 /*
@@ -164,6 +186,18 @@ OUTPUT
 
 CANVAS
 	:	'canvas' | 'CANVAS'
+	;
+
+PARAM
+	:	'param' | 'PARAM'
+	;
+
+COLOR
+	:	'color' | 'COLOR'
+	;
+
+NUMBER_KW
+	:	'number' | 'NUMBER'
 	;
 
 APPLY

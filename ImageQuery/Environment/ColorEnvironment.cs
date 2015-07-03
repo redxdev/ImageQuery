@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ImageQuery.Canvas;
 using ImageQuery.Query.Value;
 
 namespace ImageQuery.Environment
 {
-    public class CanvasEnvironment : IEnvironment
+    public class ColorEnvironment : IEnvironment
     {
-        public CanvasEnvironment(IEnvironment env, ICanvas canvas)
+        public ColorEnvironment(IEnvironment env, Color color)
         {
             Parent = env;
-            Canvas = canvas;
+            Color = color;
         }
 
         public IQLSettings Settings
@@ -20,7 +23,7 @@ namespace ImageQuery.Environment
 
         public IEnvironment Parent { get; private set; }
 
-        public ICanvas Canvas { get; private set; }
+        public Color Color { get; private set; }
 
         public ICanvas CreateInput(string name)
         {
@@ -46,8 +49,14 @@ namespace ImageQuery.Environment
         {
             switch (name)
             {
-                case "width":
-                case "height":
+                case "r":
+                case "red":
+                case "g":
+                case "green":
+                case "b":
+                case "blue":
+                case "a":
+                case "alpha":
                     throw new ArgumentException(string.Format("Cannot set {0} as it is protected in this context", name), "name");
 
                 default:
@@ -59,11 +68,21 @@ namespace ImageQuery.Environment
         {
             switch (name)
             {
-                case "width":
-                    return new NumberValue() {Number = Canvas.Width};
+                case "red":
+                case "r":
+                    return new NumberValue() {Number = Color.R};
 
-                case "height":
-                    return new NumberValue() {Number = Canvas.Height};
+                case "green":
+                case "g":
+                    return new NumberValue() {Number = Color.G};
+
+                case "blue":
+                case "b":
+                    return new NumberValue() {Number = Color.B};
+
+                case "alpha":
+                case "a":
+                    return new NumberValue() {Number = Color.A};
 
                 default:
                     throw new KeyNotFoundException(string.Format("Variable {0} does not exist in this context", name));

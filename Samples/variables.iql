@@ -1,0 +1,8 @@
+# Variables Test
+OUTPUT out[100,100]
+
+NUMBER num = 0.5
+COLOR c = {num, num, num}
+c = {c.r, c.g * 0.5, c.b}
+
+out: select c from [out.width, out.height]

@@ -11,7 +11,7 @@ namespace ImageQuery.Query.Selection
 {
     public class BasicSelection : ISelection
     {
-        public string CanvasName { get; set; }
+        public IExpression Canvas { get; set; }
 
         public IExpression Manipulation { get; set; }
 
@@ -27,15 +27,15 @@ namespace ImageQuery.Query.Selection
         {
             if (Manipulation == null)
             {
-                throw new ArgumentException("Manipulation expression cannot be null", "Modulation");
+                throw new ArgumentException("Manipulation expression cannot be null", "Manipulation");
             }
 
-            if (CanvasName == null)
+            if (Canvas == null)
             {
-                throw new ArgumentException("Canvas name cannot be null", "CanvasName");
+                throw new ArgumentException("Color cannot be null", "Canvas");
             }
 
-            ICanvas canvas = env.GetVariable(CanvasName).Canvas;
+            ICanvas canvas = Canvas.Evaluate(env).Canvas;
 
             _units = new ConcurrentBag<Unit>();
 

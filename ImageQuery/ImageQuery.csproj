@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Canvas\IteratorCanvas.cs" />
     <Compile Include="Environment\CanvasEnvironment.cs" />
+    <Compile Include="Environment\ColorEnvironment.cs" />
     <Compile Include="Language\IQLang.g4.lexer.cs">
       <DependentUpon>IQLang.g4</DependentUpon>
     </Compile>
@@ -59,6 +61,7 @@
     <Compile Include="Language\ParserErrorListener.cs" />
     <Compile Include="Query\Expressions\BooleanExpression.cs" />
     <Compile Include="Query\Expressions\EnterEnvironmentExpression.cs" />
+    <Compile Include="Query\Expressions\IteratorExpression.cs" />
     <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\AndExpression.cs" />
     <Compile Include="Query\Operators\DivideExpression.cs" />
@@ -71,6 +74,9 @@
     <Compile Include="Query\Operators\NotExpression.cs" />
     <Compile Include="Query\Operators\OrExpression.cs" />
     <Compile Include="Query\Expressions\RetrieveIndexedVariableExpression.cs" />
+    <Compile Include="Query\Statements\DefineColorStatement.cs" />
+    <Compile Include="Query\Statements\DefineNumberStatement.cs" />
+    <Compile Include="Query\Statements\SetVariableStatement.cs" />
     <Compile Include="Query\Value\BooleanValue.cs" />
     <Compile Include="Canvas\BasicCanvas.cs" />
     <Compile Include="Canvas\BitmapCanvasLoader.cs" />
@@ -108,6 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Value\CanvasValue.cs" />
     <Compile Include="Query\Value\IQueryValue.cs" />
+    <Compile Include="Query\Value\ValueUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="Language\IQLang.g4">
