@@ -10,8 +10,8 @@ namespace ImageQuery.Query.Statements
 
         public ISelection Selection { get; set; }
 
-        public IExpression XModulation { get; set; }
-        public IExpression YModulation { get; set; }
+        public IExpression XManipulation { get; set; }
+        public IExpression YManipulation { get; set; }
 
         public void Run(IEnvironment env)
         {
@@ -25,8 +25,8 @@ namespace ImageQuery.Query.Statements
             {
                 canvasEnv.X = unit.X;
                 canvasEnv.Y = unit.Y;
-                int x = XModulation == null ? unit.X : (int) XModulation.Evaluate(canvasEnv).Number;
-                int y = YModulation == null ? unit.Y : (int) YModulation.Evaluate(canvasEnv).Number;
+                int x = XManipulation == null ? unit.X : (int) XManipulation.Evaluate(canvasEnv).Number;
+                int y = YManipulation == null ? unit.Y : (int) YManipulation.Evaluate(canvasEnv).Number;
                 canvas[x, y] = unit.Color;
             }
         }

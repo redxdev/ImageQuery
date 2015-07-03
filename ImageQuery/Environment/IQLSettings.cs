@@ -3,7 +3,7 @@
     public struct IQLSettings
     {
         public bool AllowParallel { get; set; }
-        public uint ProcessCount { get; set; }
+        public int ProcessCount { get; set; }
 
         public override string ToString()
         {

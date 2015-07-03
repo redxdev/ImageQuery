@@ -13,7 +13,7 @@ namespace ImageQuery.Query
     {
         public string CanvasName { get; set; }
 
-        public IExpression Modulation { get; set; }
+        public IExpression Manipulation { get; set; }
 
         public IExpression Where { get; set; }
 
@@ -23,9 +23,9 @@ namespace ImageQuery.Query
 
         public void Execute(IEnvironment env, bool storeResults)
         {
-            if (Modulation == null)
+            if (Manipulation == null)
             {
-                throw new ArgumentException("Modulation expression cannot be null", "Modulation");
+                throw new ArgumentException("Manipulation expression cannot be null", "Modulation");
             }
 
             if (CanvasName == null)
@@ -58,7 +58,7 @@ namespace ImageQuery.Query
                     {
                         X = x,
                         Y = y,
-                        Color = Modulation.Evaluate(canvasEnv).Color
+                        Color = Manipulation.Evaluate(canvasEnv).Color
                     };
 
                     if (OnUnitCompleted != null)

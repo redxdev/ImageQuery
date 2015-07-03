@@ -1,0 +1,5 @@
+# Small Grid of Colors
+INPUT in
+OUTPUT out[in.width, in.height]
+
+out: SELECT color FROM in WHERE x % 5 < 1 AND y % 5 < 1

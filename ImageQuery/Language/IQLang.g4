@@ -65,13 +65,13 @@ intermediate_statement returns [IQueryStatement stm]
 
 apply_statement returns [IQueryStatement stm]
 	:	n=IDENT COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select};}
-	|	n=IDENT L_BRACKET x=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XModulation = $x.expr};}
-	|	n=IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XModulation = $x.expr, YModulation = $y.expr};}
+	|	n=IDENT L_BRACKET x=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XManipulation = $x.expr};}
+	|	n=IDENT L_BRACKET x=expression COMMA y=expression R_BRACKET COLON selection {$stm = new ApplyStatement() {CanvasName = $n.text, Selection = $selection.select, XManipulation = $x.expr, YManipulation = $y.expr};}
 	;
 
 selection returns [ISelection select]
-	:	SELECT m=expression FROM n=IDENT {$select = new BasicSelection() {CanvasName = $n.text, Modulation = $m.expr};}
-	|	SELECT m=expression FROM n=IDENT WHERE w=expression {$select = new BasicSelection() {CanvasName = $n.text, Modulation = $m.expr, Where = $w.expr};}
+	:	SELECT m=expression FROM n=IDENT {$select = new BasicSelection() {CanvasName = $n.text, Manipulation = $m.expr};}
+	|	SELECT m=expression FROM n=IDENT WHERE w=expression {$select = new BasicSelection() {CanvasName = $n.text, Manipulation = $m.expr, Where = $w.expr};}
 	;
 
 expression returns [IExpression expr]

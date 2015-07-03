@@ -70,7 +70,7 @@ namespace ImageQuery.Environment
             return canvas;
         }
 
-        ICanvas[] GetOutputs()
+        public ICanvas[] GetOutputs()
         {
             return _outputs.ToArray();
         }
