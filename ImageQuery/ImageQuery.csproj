@@ -80,6 +80,7 @@
     <Compile Include="Query\Operators\NotExpression.cs" />
     <Compile Include="Query\Operators\OrExpression.cs" />
     <Compile Include="Query\Expressions\RetrieveIndexedVariableExpression.cs" />
+    <Compile Include="Query\Statements\ConditionalStatement.cs" />
     <Compile Include="Query\Statements\DefineColorParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineColorStatement.cs" />
     <Compile Include="Query\Statements\DefineIteratorParameterStatement.cs" />

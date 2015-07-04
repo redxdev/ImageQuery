@@ -67,7 +67,7 @@ namespace ImageQuery.Environment
             if (name == null)
                 throw new ArgumentNullException("name", "Cannot use a null name for a canvas");
 
-            ICanvas canvas = new BasicCanvas(CanvasMode.WriteOnly, name, w, h);
+            ICanvas canvas = new BasicCanvas(CanvasMode.ReadWrite, name, w, h);
             CreateVariable(canvas.Name, new CanvasValue() {Canvas = canvas});
 
             return canvas;

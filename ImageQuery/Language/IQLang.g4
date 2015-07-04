@@ -56,6 +56,7 @@ statement returns [IQueryStatement stm]
 	|	define_iterator_parameter_statement {$stm = $define_iterator_parameter_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
 	|	set_variable_statement {$stm = $set_variable_statement.stm;}
+	|	conditional_statement {$stm = $conditional_statement.stm;}
 	;
 
 input_statement returns [IQueryStatement stm]
@@ -104,6 +105,20 @@ apply_statement returns [IQueryStatement stm]
 
 set_variable_statement returns [IQueryStatement stm]
 	:	IDENT EQUAL expression {$stm = new SetVariableStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
+conditional_statement returns [IQueryStatement stm]
+	:	IF t=expression THEN {var cond = new ConditionalStatement() {Condition = $expression.expr};}
+		(
+			ts=statements {cond.True = $ts.list.ToArray();}
+		)?
+		(
+			ELSE
+			(
+				fs=statements {cond.False = $fs.list.ToArray();}
+			)?
+		)?
+		END {$stm = cond;}
 	;
 
 selection returns [ISelection select]
@@ -257,8 +272,20 @@ WHERE
 	:	'where' | 'WHERE'
 	;
 
+IF
+	:	'if' | 'IF'
+	;
+
+THEN
+	:	'then' | 'THEN'
+	;
+
 ELSE
 	:	'else' | 'ELSE'
+	;
+
+END
+	:	'end' | 'END'
 	;
 
 B_TRUE
