@@ -1,0 +1,5 @@
+# Noise generator
+param iterator iter
+output out[iter.width, iter.height]
+
+out: select crand() from iter

@@ -79,5 +79,20 @@ namespace ImageQuery.Environment
         {
             return Parent.GetParameter(name);
         }
+
+        public bool HasParameter(string name)
+        {
+            return Parent.HasParameter(name);
+        }
+
+        public void RegisterFunction(string name, QueryFunction func)
+        {
+            Parent.RegisterFunction(name, func);
+        }
+
+        public QueryFunction GetFunction(string name)
+        {
+            return Parent.GetFunction(name);
+        }
     }
 }

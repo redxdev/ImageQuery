@@ -2,7 +2,7 @@
 INPUT in
 OUTPUT out[in.width, in.height]
 
-PARAM NUM spacing
-PARAM NUM size
+PARAM NUM spacing = 5
+PARAM NUM size = 1
 
 out: SELECT color FROM in WHERE x % spacing < size AND y % spacing < size

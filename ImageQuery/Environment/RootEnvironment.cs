@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ImageQuery.Canvas;
+using ImageQuery.Environment.Attributes;
 using ImageQuery.Query.Value;
 
 namespace ImageQuery.Environment
@@ -20,7 +21,8 @@ namespace ImageQuery.Environment
         private ICanvasLoader _canvasLoader = null;
 
         private Dictionary<string, IQueryValue> _variables = new Dictionary<string, IQueryValue>();
-        private Dictionary<string, IQueryValue> _parameters = new Dictionary<string, IQueryValue>(); 
+        private Dictionary<string, IQueryValue> _parameters = new Dictionary<string, IQueryValue>();
+        private Dictionary<string, QueryFunction> _functions = new Dictionary<string, QueryFunction>(); 
 
         public void SetCanvasLoader(ICanvasLoader loader)
         {
@@ -110,6 +112,51 @@ namespace ImageQuery.Environment
                 throw new KeyNotFoundException(string.Format("Parameter \"{0}\" is not defined", name));
 
             return value;
+        }
+
+        public bool HasParameter(string name)
+        {
+            return _parameters.ContainsKey(name);
+        }
+
+        public void RegisterFunction(string name, QueryFunction func)
+        {
+            _functions.Add(name, func);
+        }
+
+        public QueryFunction GetFunction(string name)
+        {
+            QueryFunction func = null;
+            if(!_functions.TryGetValue(name, out func))
+                throw new KeyNotFoundException(string.Format("Function \"{0}\" is not defined", name));
+
+            return func;
+        }
+
+        public void RegisterFunctions()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in assembly.DefinedTypes)
+                {
+                    foreach (var method in type.DeclaredMethods)
+                    {
+                        foreach (
+                            var attr in
+                                (QueryFunctionAttribute[])
+                                    Attribute.GetCustomAttributes(method, typeof (QueryFunctionAttribute)))
+                        {
+                            if(!method.IsStatic)
+                                throw new InvalidOperationException(String.Format("Method \"{0}.{1}\" must be static for QueryFunctionAttribute use", type.FullName, type.FullName));
+
+                            if(method.IsAbstract)
+                                throw new InvalidOperationException(String.Format("Method \"{0}.{1}\" cannot be abstract for QueryFunctionAttribute use", type.FullName, method.Name));
+
+                            RegisterFunction(attr.Name, (QueryFunction)method.CreateDelegate(typeof(QueryFunction)));
+                        }
+                    }
+                }
+            }
         }
     }
 }

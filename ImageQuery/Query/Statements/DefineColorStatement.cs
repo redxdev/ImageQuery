@@ -1,4 +1,5 @@
-﻿using ImageQuery.Environment;
+﻿using ImageQuery.Canvas;
+using ImageQuery.Environment;
 using ImageQuery.Query.Expressions;
 using ImageQuery.Query.Value;
 
@@ -16,6 +17,10 @@ namespace ImageQuery.Query.Statements
             if (Value != null)
             {
                 variable.Color = Value.Evaluate(env).Color;
+            }
+            else
+            {
+                variable.Color = new Color(0, 0, 0, 1);
             }
         }
     }

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Canvas\IteratorCanvas.cs" />
+    <Compile Include="Environment\Attributes\QueryFunctionAttribute.cs" />
     <Compile Include="Environment\CanvasEnvironment.cs" />
     <Compile Include="Environment\ColorEnvironment.cs" />
     <Compile Include="Language\IQLang.g4.lexer.cs">
@@ -59,9 +60,13 @@
     <Compile Include="Language\LexerErrorListener.cs" />
     <Compile Include="Language\ParseException.cs" />
     <Compile Include="Language\ParserErrorListener.cs" />
+    <Compile Include="Library\FunctionUtils.cs" />
+    <Compile Include="Library\ImageMath.cs" />
+    <Compile Include="Library\ImageRandom.cs" />
     <Compile Include="Query\Expressions\BooleanExpression.cs" />
     <Compile Include="Query\Expressions\EnterEnvironmentExpression.cs" />
     <Compile Include="Query\Expressions\EnterSelectionEnvironmentExpression.cs" />
+    <Compile Include="Query\Expressions\FunctionCallExpression.cs" />
     <Compile Include="Query\Expressions\IteratorExpression.cs" />
     <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\AndExpression.cs" />

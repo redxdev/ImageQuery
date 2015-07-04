@@ -6,30 +6,22 @@ using System.Threading.Tasks;
 
 namespace ImageQuery.Canvas
 {
-    public class Color
+    public struct Color
     {
-        public Color()
-        {
-            R = 0;
-            G = 0;
-            B = 0;
-            A = 1;
-        }
-
         public Color(float r, float g, float b)
         {
-            R = r;
-            G = g;
-            B = b;
-            A = 1;
+            _r = r;
+            _g = g;
+            _b = b;
+            _a = 1;
         }
 
         public Color(float r, float g, float b, float a)
         {
-            R = r;
-            G = g;
-            B = b;
-            A = a;
+            _r = r;
+            _g = g;
+            _b = b;
+            _a = a;
         }
 
         public float R
@@ -116,7 +108,7 @@ namespace ImageQuery.Canvas
             if (!(obj is Color))
                 return false;
 
-            Color c = obj as Color;
+            Color c = (Color) obj;
             return R == c.R && G == c.G && B == c.B && A == c.A;
         }
 
@@ -128,6 +120,21 @@ namespace ImageQuery.Canvas
         public Color Clone()
         {
             return new Color(R, G, B, A);
+        }
+
+        public Color Each(Func<float, float> func, bool alpha = false)
+        {
+            Color result = new Color();
+
+            result.R = func(R);
+            result.G = func(G);
+            result.B = func(B);
+            if (alpha)
+                result.A = func(A);
+            else
+                result.A = A;
+
+            return result;
         }
     }
 }

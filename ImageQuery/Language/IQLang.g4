@@ -83,14 +83,17 @@ define_color_statement returns [IQueryStatement stm]
 
 define_number_parameter_statement returns [IQueryStatement stm]
 	:	PARAM NUMBER_KW IDENT {$stm = new DefineNumberParameterStatement() {Name = $IDENT.text};}
+	|	PARAM NUMBER_KW IDENT EQUAL expression {$stm = new DefineNumberParameterStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
 define_color_parameter_statement returns [IQueryStatement stm]
 	:	PARAM COLOR IDENT {$stm = new DefineColorParameterStatement() {Name = $IDENT.text};}
+	|	PARAM COLOR IDENT EQUAL expression {$stm = new DefineColorParameterStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
 define_iterator_parameter_statement returns [IQueryStatement stm]
 	:	PARAM ITERATOR IDENT {$stm = new DefineIteratorParameterStatement() {Name = $IDENT.text};}
+	|	PARAM ITERATOR IDENT EQUAL expression {$stm = new DefineIteratorParameterStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
 apply_statement returns [IQueryStatement stm]
@@ -152,6 +155,7 @@ notExpr returns [IExpression expr]
 
 atom returns [IExpression expr]
 	:	value {$expr = $value.expr;}
+	|	function {$expr = $function.expr;}
 	|	variable {$expr = $variable.expr;}
 	|	L_PAREN expression R_PAREN {$expr = $expression.expr;}
 	;
@@ -179,6 +183,17 @@ color returns [IExpression expr]
 number returns [IExpression expr]
 	:	MINUS NUMBER {$expr = new NumberExpression() {Value = -Convert.ToSingle($NUMBER.text)};}
 	|	NUMBER {$expr = new NumberExpression() {Value = Convert.ToSingle($NUMBER.text)};}
+	;
+
+function returns [IExpression expr]
+	:	n=IDENT L_PAREN {var argList = new List<IExpression>();}
+	(
+		a=expression {argList.Add($a.expr);}
+		(
+			COMMA b=expression {argList.Add($b.expr);}
+		)*
+	)?
+		R_PAREN {$expr = new FunctionCallExpression() {Name = $n.text, Arguments = argList.ToArray()};}
 	;
 
 variable returns [IExpression expr]

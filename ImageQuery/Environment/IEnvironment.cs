@@ -3,6 +3,8 @@ using ImageQuery.Query.Value;
 
 namespace ImageQuery.Environment
 {
+    public delegate IQueryValue QueryFunction(IEnvironment env, IQueryValue[] arguments);
+
     public interface IEnvironment
     {
         IQLSettings Settings { get; }
@@ -22,5 +24,11 @@ namespace ImageQuery.Environment
         void CreateParameter(string name, IQueryValue value);
 
         IQueryValue GetParameter(string name);
+
+        bool HasParameter(string name);
+
+        void RegisterFunction(string name, QueryFunction func);
+
+        QueryFunction GetFunction(string name);
     }
 }

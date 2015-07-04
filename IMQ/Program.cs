@@ -146,6 +146,7 @@ namespace IMQ
             }
 
             RootEnvironment root = new RootEnvironment(settings);
+            root.RegisterFunctions();
 
             foreach (var entry in parameters)
             {
