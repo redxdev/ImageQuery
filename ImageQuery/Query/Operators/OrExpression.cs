@@ -1,21 +1,18 @@
 ﻿using System;
 using ImageQuery.Environment;
+using ImageQuery.Query.Expressions;
 using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators
 {
-    public class OrExpression : AbstractOperatorExpression
+    public class OrExpression : IExpression
     {
-        public override IQueryValue EvaluateOperator(IEnvironment env, IQueryValue left, IQueryValue right)
-        {
-            switch (left.GetIQLType())
-            {
-                default:
-                    throw new ArgumentException(string.Format("Arguments to OR cannot be of type {0}", left.GetIQLType()));
+        public IExpression Left { get; set; }
+        public IExpression Right { get; set; }
 
-                case IQLType.Boolean:
-                    return new BooleanValue() { Boolean = left.Boolean || right.Boolean };
-            }
+        public IQueryValue Evaluate(IEnvironment env)
+        {
+            return new BooleanValue() {Boolean = Left.Evaluate(env).Boolean || Right.Evaluate(env).Boolean};
         }
     }
 }

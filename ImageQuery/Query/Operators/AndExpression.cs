@@ -1,21 +1,19 @@
 ﻿using System;
 using ImageQuery.Environment;
+using ImageQuery.Query.Expressions;
 using ImageQuery.Query.Value;
 
 namespace ImageQuery.Query.Operators
 {
-    public class AndExpression : AbstractOperatorExpression
+    public class AndExpression : IExpression
     {
-        public override IQueryValue EvaluateOperator(IEnvironment env, IQueryValue left, IQueryValue right)
-        {
-            switch (left.GetIQLType())
-            {
-                default:
-                    throw new ArgumentException(string.Format("Arguments to AND cannot be of type {0}", left.GetIQLType()));
+        public IExpression Left { get; set; }
+        public IExpression Right { get; set; }
 
-                case IQLType.Boolean:
-                    return new BooleanValue() { Boolean = left.Boolean && right.Boolean };
-            }
+        public IQueryValue Evaluate(IEnvironment env)
+        {
+            IQueryValue left = Left.Evaluate(env);
+            return new BooleanValue() { Boolean = Left.Evaluate(env).Boolean && Right.Evaluate(env).Boolean };
         }
     }
 }

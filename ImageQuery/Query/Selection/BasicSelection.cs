@@ -17,6 +17,8 @@ namespace ImageQuery.Query.Selection
 
         public IExpression Where { get; set; }
 
+        public IExpression Else { get; set; }
+
         public event UnitCompleted OnUnitCompleted;
 
         private ConcurrentBag<Unit> _units = null; 
@@ -86,14 +88,23 @@ namespace ImageQuery.Query.Selection
             {
                 CanvasSelectionEnvironment env = obj as CanvasSelectionEnvironment;
 
-                if (Where != null && !Where.Evaluate(env).Boolean)
-                    return;
+                IExpression manipulation = Manipulation;
+                if (Where != null)
+                {
+                    if (!Where.Evaluate(env).Boolean)
+                    {
+                        if (Else != null)
+                        {
+                            manipulation = Else;
+                        }
+                    }
+                }
 
                 Unit unit = new Unit()
                 {
                     X = env.X,
                     Y = env.Y,
-                    Color = Manipulation.Evaluate(env).Color
+                    Color = manipulation.Evaluate(env).Color
                 };
 
                 if(OnUnitCompleted != null)

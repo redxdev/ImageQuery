@@ -14,6 +14,7 @@ namespace ImageQuery.Canvas
             _g = g;
             _b = b;
             _a = 1;
+            Clamp();
         }
 
         public Color(float r, float g, float b, float a)
@@ -22,6 +23,7 @@ namespace ImageQuery.Canvas
             _g = g;
             _b = b;
             _a = a;
+            Clamp();
         }
 
         public float R
@@ -135,6 +137,14 @@ namespace ImageQuery.Canvas
                 result.A = A;
 
             return result;
+        }
+
+        private void Clamp()
+        {
+            _r = _r.Clamp(0, 1);
+            _g = _g.Clamp(0, 1);
+            _b = _g.Clamp(0, 1);
+            _a = _a.Clamp(0, 1);
         }
     }
 }

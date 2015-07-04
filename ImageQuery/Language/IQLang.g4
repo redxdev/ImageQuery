@@ -109,6 +109,7 @@ set_variable_statement returns [IQueryStatement stm]
 selection returns [ISelection select]
 	:	SELECT m=expression FROM c=expression {$select = new BasicSelection() {Canvas = $c.expr, Manipulation = $m.expr};}
 	|	SELECT m=expression FROM c=expression WHERE w=expression {$select = new BasicSelection() {Canvas = $c.expr, Manipulation = $m.expr, Where = $w.expr};}
+	|	SELECT m=expression FROM c=expression WHERE w=expression ELSE e=expression {$select = new BasicSelection() {Canvas = $c.expr, Manipulation = $m.expr, Where = $w.expr, Else = $e.expr};}
 	;
 
 expression returns [IExpression expr]
@@ -245,7 +246,7 @@ APPLY
 	;
 
 SELECT
-	: 'select' | 'SELECT'
+	:	'select' | 'SELECT'
 	;
 
 FROM
@@ -256,8 +257,8 @@ WHERE
 	:	'where' | 'WHERE'
 	;
 
-TO
-	:	'to' | 'TO'
+ELSE
+	:	'else' | 'ELSE'
 	;
 
 B_TRUE

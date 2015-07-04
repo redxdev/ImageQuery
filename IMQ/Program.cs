@@ -155,6 +155,14 @@ namespace IMQ
                 return;
             }
 
+            if (interactive && settings.AllowParallel)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Interactive and parallel modes are not supported at the same time.");
+                Console.BackgroundColor = ConsoleColor.Black;
+                return;
+            }
+
             RootEnvironment root = new RootEnvironment(settings);
             root.RegisterFunctions();
 
@@ -193,10 +201,8 @@ namespace IMQ
             }
             else if (interactive)
             {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("Heads up! You've defined some output locations, but you'll have to create them in IQL to define their size.");
                 Console.WriteLine("For example: output {0}[100,100]", outputPaths.Keys.First());
-                Console.BackgroundColor = ConsoleColor.Black;
             }
 
             if (settings.AllowParallel)
