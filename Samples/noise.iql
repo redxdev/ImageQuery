@@ -2,4 +2,6 @@
 param iterator iter
 output out[iter.width, iter.height]
 
-out: select crand() from iter
+# crand generates a random color. The first argument is optional, but if specified the alpha
+# will be set as the value of the argument instead of being random.
+out: select crand(1) from iter
