@@ -68,6 +68,7 @@
     <Compile Include="Query\Expressions\EnterSelectionEnvironmentExpression.cs" />
     <Compile Include="Query\Expressions\FunctionCallExpression.cs" />
     <Compile Include="Query\Expressions\IteratorExpression.cs" />
+    <Compile Include="Query\Expressions\TernaryExpression.cs" />
     <Compile Include="Query\Operators\AbstractOperatorExpression.cs" />
     <Compile Include="Query\Operators\AndExpression.cs" />
     <Compile Include="Query\Operators\DivideExpression.cs" />

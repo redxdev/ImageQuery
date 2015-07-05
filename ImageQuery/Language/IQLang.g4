@@ -139,7 +139,12 @@ selection returns [ISelection select]
 	;
 
 expression returns [IExpression expr]
+	:	ternaryExpr {$expr = $ternaryExpr.expr;}
+	;
+
+ternaryExpr returns [IExpression expr]
 	:	orExpr {$expr = $orExpr.expr;}
+	|	c=orExpr QUESTION t=expression COLON f=expression {$expr = new TernaryExpression() {Condition = $c.expr, True = $t.expr, False = $f.expr};}
 	;
 
 orExpr returns [IExpression expr]
@@ -341,6 +346,10 @@ L_PAREN
 
 R_PAREN
 	:	')'
+	;
+
+QUESTION
+	:	'?'
 	;
 
 COLON
