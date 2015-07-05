@@ -113,6 +113,17 @@ conditional_statement returns [IQueryStatement stm]
 			ts=statements {cond.True = $ts.list.ToArray();}
 		)?
 		(
+			{var elifList = new List<ConditionalStatement.ElseIfSection>();}
+			(
+				ELSEIF ei=expression THEN {var eis = new ConditionalStatement.ElseIfSection() {Condition = $ei.expr};}
+				(
+					eis=statements {eis.True = $eis.list.ToArray();}
+				)?
+				{elifList.Add(eis);}
+			)+
+			{cond.ElseIf = elifList.ToArray();}
+		)?
+		(
 			ELSE
 			(
 				fs=statements {cond.False = $fs.list.ToArray();}
@@ -278,6 +289,10 @@ IF
 
 THEN
 	:	'then' | 'THEN'
+	;
+
+ELSEIF
+	:	'elseif' | 'ELSEIF'
 	;
 
 ELSE
