@@ -97,6 +97,10 @@ namespace ImageQuery.Query.Selection
                         {
                             manipulation = Else;
                         }
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
 
