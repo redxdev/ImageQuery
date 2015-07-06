@@ -60,5 +60,10 @@ namespace ImageQuery.Query.Value
         {
             throw new InvalidOperationException("Cannot index object of type canvas");
         }
+
+        public override string ToString()
+        {
+            return string.Format("Canvas[{0},{1}]", Canvas.Width, Canvas.Height);
+        }
     }
 }

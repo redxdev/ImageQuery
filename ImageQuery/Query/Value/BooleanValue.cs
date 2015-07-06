@@ -54,5 +54,10 @@ namespace ImageQuery.Query.Value
         {
             throw new InvalidOperationException("Cannot index object of type boolean");
         }
+
+        public override string ToString()
+        {
+            return Boolean.ToString();
+        }
     }
 }

@@ -120,5 +120,10 @@ namespace ImageQuery.Query.Value
 
             return IndexOperation(x, y);
         }
+
+        public override string ToString()
+        {
+            return string.Format("Indexed{{{0}}}", BaseValue == null ? "null" : BaseValue.ToString());
+        }
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum IQLType
     {
+        None,
         Number,
         Color,
         Canvas,

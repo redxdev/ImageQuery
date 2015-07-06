@@ -56,7 +56,9 @@ statement returns [IQueryStatement stm]
 	|	define_iterator_parameter_statement {$stm = $define_iterator_parameter_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
 	|	set_variable_statement {$stm = $set_variable_statement.stm;}
+	|	function_statement {$stm = $function_statement.stm;}
 	|	conditional_statement {$stm = $conditional_statement.stm;}
+	|	while_statement {$stm = $while_statement.stm;}
 	;
 
 input_statement returns [IQueryStatement stm]
@@ -107,6 +109,10 @@ set_variable_statement returns [IQueryStatement stm]
 	:	IDENT EQUAL expression {$stm = new SetVariableStatement() {Name = $IDENT.text, Value = $expression.expr};}
 	;
 
+function_statement returns [IQueryStatement stm]
+	:	function {$stm = new ExpressionStatement() {Expression = $function.expr};}
+	;
+
 conditional_statement returns [IQueryStatement stm]
 	:	IF t=expression THEN {var cond = new ConditionalStatement() {Condition = $expression.expr};}
 		(
@@ -130,6 +136,13 @@ conditional_statement returns [IQueryStatement stm]
 			)?
 		)?
 		END {$stm = cond;}
+	;
+
+while_statement returns [IQueryStatement stm]
+	:	WHILE c=expression DO {var ws = new WhileStatement() {Condition = $c.expr};}
+	(
+		statements {ws.Statements = $statements.list.ToArray();}
+	)?	END {$stm = ws;}
 	;
 
 selection returns [ISelection select]
@@ -306,6 +319,14 @@ ELSE
 
 END
 	:	'end' | 'END'
+	;
+
+WHILE
+	:	'while' | 'WHILE'
+	;
+
+DO
+	:	'do' | 'DO'
 	;
 
 B_TRUE

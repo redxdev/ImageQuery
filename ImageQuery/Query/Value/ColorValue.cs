@@ -55,5 +55,10 @@ namespace ImageQuery.Query.Value
         {
             throw new InvalidOperationException("Cannot index object of type canvas");
         }
+
+        public override string ToString()
+        {
+            return Color.ToString();
+        }
     }
 }
