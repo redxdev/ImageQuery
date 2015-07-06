@@ -11,6 +11,11 @@ namespace ImageQuery.Query.Operators
 {
     public class AddExpression : AbstractOperatorExpression
     {
+        public AddExpression()
+        {
+            AllowDisparateTypes = true;
+        }
+
         public override IQueryValue EvaluateOperator(IEnvironment env, IQueryValue left, IQueryValue right)
         {
             switch (left.GetIQLType())
@@ -26,6 +31,9 @@ namespace ImageQuery.Query.Operators
 
                         case IQLType.Number:
                             return new NumberValue() {Number = left.Number + right.Number};
+
+                        case IQLType.Color:
+                            return new ColorValue() {Color = right.Color.Each(v => left.Number + v)};
                     }
 
                 case IQLType.Color:
@@ -36,6 +44,9 @@ namespace ImageQuery.Query.Operators
 
                         case IQLType.Color:
                             return new ColorValue() {Color = left.Color + right.Color};
+
+                        case IQLType.Number:
+                            return new ColorValue() {Color = left.Color.Each(v => v + right.Number)};
                     }
             }
         }
