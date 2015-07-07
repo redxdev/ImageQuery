@@ -4,14 +4,14 @@ using ImageQuery.Query.Expressions;
 
 namespace ImageQuery.Query.Statements
 {
-    public class WhileStatement : IQueryStatement
+    public class DoWhileStatement : IQueryStatement
     {
         public IExpression Condition { get; set; }
         public IQueryStatement[] Statements { get; set; }
 
         public void Run(IEnvironment env)
         {
-            while (Condition.Evaluate(env).Boolean)
+            do
             {
                 if (Statements != null)
                 {
@@ -20,7 +20,7 @@ namespace ImageQuery.Query.Statements
                         stm.Run(env);
                     }
                 }
-            }
+            } while (Condition.Evaluate(env).Boolean);
         }
     }
 }

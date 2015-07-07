@@ -88,6 +88,7 @@
     <Compile Include="Query\Statements\DefineIteratorParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineNumberParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineNumberStatement.cs" />
+    <Compile Include="Query\Statements\DoWhileStatement.cs" />
     <Compile Include="Query\Statements\ExpressionStatement.cs" />
     <Compile Include="Query\Statements\SetVariableStatement.cs" />
     <Compile Include="Query\Statements\WhileStatement.cs" />

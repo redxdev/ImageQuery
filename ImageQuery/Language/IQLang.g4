@@ -59,6 +59,7 @@ statement returns [IQueryStatement stm]
 	|	function_statement {$stm = $function_statement.stm;}
 	|	conditional_statement {$stm = $conditional_statement.stm;}
 	|	while_statement {$stm = $while_statement.stm;}
+	|	do_while_statement {$stm = $do_while_statement.stm;}
 	;
 
 input_statement returns [IQueryStatement stm]
@@ -143,6 +144,13 @@ while_statement returns [IQueryStatement stm]
 	(
 		statements {ws.Statements = $statements.list.ToArray();}
 	)?	END {$stm = ws;}
+	;
+
+do_while_statement returns [IQueryStatement stm]
+	: DO {var ws = new DoWhileStatement();}
+	(
+		statements {ws.Statements = $statements.list.ToArray();}
+	)? WHILE c=expression {ws.Condition = $c.expr; $stm = ws;}
 	;
 
 selection returns [ISelection select]
