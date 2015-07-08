@@ -17,6 +17,7 @@ namespace ImageQuery.Canvas
                 for (int x = 0; x < canvas.Width; ++x)
                 {
                     Color color = canvas.ForceRead(x, y);
+                    color.Clamp();
                     bitmap.SetPixel(x, y,
                         System.Drawing.Color.FromArgb((int) (color.A*255), (int) (color.R*255), (int) (color.G*255),
                             (int) (color.B*255)));

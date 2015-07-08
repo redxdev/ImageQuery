@@ -54,6 +54,7 @@ statement returns [IQueryStatement stm]
 	|	define_number_parameter_statement {$stm = $define_number_parameter_statement.stm;}
 	|	define_color_parameter_statement {$stm = $define_color_parameter_statement.stm;}
 	|	define_iterator_parameter_statement {$stm = $define_iterator_parameter_statement.stm;}
+	|	define_function_statement {$stm = $define_function_statement.stm;}
 	|	apply_statement {$stm = $apply_statement.stm;}
 	|	set_variable_statement {$stm = $set_variable_statement.stm;}
 	|	function_statement {$stm = $function_statement.stm;}
@@ -98,6 +99,20 @@ define_color_parameter_statement returns [IQueryStatement stm]
 define_iterator_parameter_statement returns [IQueryStatement stm]
 	:	PARAM ITERATOR IDENT {$stm = new DefineIteratorParameterStatement() {Name = $IDENT.text};}
 	|	PARAM ITERATOR IDENT EQUAL expression {$stm = new DefineIteratorParameterStatement() {Name = $IDENT.text, Value = $expression.expr};}
+	;
+
+define_function_statement returns [IQueryStatement stm]
+	:	FUNC n=IDENT L_PAREN {var argNames = new List<string>();}
+	(
+		a=IDENT {argNames.Add($a.text);}
+		(
+			',' b=IDENT {argNames.Add($b.text);}
+		)*
+	)? R_PAREN {var df = new DefineFunctionStatement() {Name = $n.text, ArgumentNames = argNames.ToArray()};}
+	(
+		s=statements {df.Statements = $s.list.ToArray();}
+	)?
+		e=expression END {df.FinalExpression = $e.expr; $stm = df;}
 	;
 
 apply_statement returns [IQueryStatement stm]
@@ -287,6 +302,10 @@ PARAM
 
 COLOR
 	:	'col' | 'COL'
+	;
+
+FUNC
+	:	'func' | 'FUNC'
 	;
 
 NUMBER_KW

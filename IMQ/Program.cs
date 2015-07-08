@@ -238,6 +238,9 @@ namespace IMQ
 
             do
             {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
+
                 IQueryStatement[] statements = null;
 
                 try

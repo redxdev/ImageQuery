@@ -86,5 +86,22 @@ namespace ImageQuery.Library
 
             return new NumberValue() {Number = result};
         }
+
+        [QueryFunction("clamp")]
+        public static IQueryValue Clamp(IEnvironment env, IQueryValue[] args)
+        {
+            FunctionUtils.CheckArgumentCountEqual("clamp", 3, args.Length);
+
+            return new NumberValue() {Number = args[0].Number.Clamp(args[1].Number, args[2].Number)};
+        }
+
+        [QueryFunction("cclamp")]
+        public static IQueryValue CClamp(IEnvironment env, IQueryValue[] args)
+        {
+            FunctionUtils.CheckArgumentCountEqual("cclamp", 1, args.Length);
+            Color color = args[0].Color;
+            color.Clamp();
+            return new ColorValue() {Color = color};
+        }
     }
 }

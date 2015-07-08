@@ -50,6 +50,7 @@
     <Compile Include="Environment\Attributes\QueryFunctionAttribute.cs" />
     <Compile Include="Environment\CanvasEnvironment.cs" />
     <Compile Include="Environment\ColorEnvironment.cs" />
+    <Compile Include="Environment\FunctionEnvironment.cs" />
     <Compile Include="Language\IQLang.g4.lexer.cs">
       <DependentUpon>IQLang.g4</DependentUpon>
     </Compile>
@@ -60,7 +61,7 @@
     <Compile Include="Language\LexerErrorListener.cs" />
     <Compile Include="Language\ParseException.cs" />
     <Compile Include="Language\ParserErrorListener.cs" />
-    <Compile Include="Library\Debug.cs" />
+    <Compile Include="Library\Utility.cs" />
     <Compile Include="Library\FunctionUtils.cs" />
     <Compile Include="Library\ImageMath.cs" />
     <Compile Include="Library\ImageRandom.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Query\Statements\ConditionalStatement.cs" />
     <Compile Include="Query\Statements\DefineColorParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineColorStatement.cs" />
+    <Compile Include="Query\Statements\DefineFunctionStatement.cs" />
     <Compile Include="Query\Statements\DefineIteratorParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineNumberParameterStatement.cs" />
     <Compile Include="Query\Statements\DefineNumberStatement.cs" />
