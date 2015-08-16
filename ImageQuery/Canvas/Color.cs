@@ -141,7 +141,7 @@ namespace ImageQuery.Canvas
         {
             _r = _r.Clamp(0, 1);
             _g = _g.Clamp(0, 1);
-            _b = _g.Clamp(0, 1);
+            _b = _b.Clamp(0, 1);
             _a = _a.Clamp(0, 1);
         }
     }

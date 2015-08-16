@@ -3,6 +3,7 @@ INPUT in
 OUTPUT out[in.width, in.height]
 
 PARAM NUM spacing = 5
-PARAM NUM size = 1
+PARAM NUM size = 3
+PARAM COL gridColor = {1,0,1}
 
-out: SELECT color FROM in WHERE x % spacing < size AND y % spacing < size
+out: SELECT color FROM in WHERE x % spacing < size AND y % spacing < size else gridColor
