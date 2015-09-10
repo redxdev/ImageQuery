@@ -15,7 +15,7 @@ namespace IMQ
     {
         private static void PrintUsage()
         {
-            Console.WriteLine("IQM [options] [filename]");
+            Console.WriteLine("IMQ [options] [filename]");
             Console.WriteLine("Options:");
             Console.WriteLine("  -c  --interactive             Start in interactive console mode. Inputs and outputs will be automatically defined and saved.");
             Console.WriteLine("  -d  --define <name> <value>   Define a parameter for the script.");
