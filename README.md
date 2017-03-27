@@ -1,5 +1,7 @@
 # ImageQuery
 
+__Development of this has moved [here](https://github.com/redxdev/imquery), and the project is now in C++!__
+
 ImageQuery is a relatively simple programming environment made for image manipulation. It is inspired
 by both SQL and graphics shading languages such as GLSL and HLSL.
 
